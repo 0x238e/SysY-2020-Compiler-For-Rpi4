@@ -1,0 +1,2 @@
+# SysY-2020-Compiler-For-Rpi4
+The SysY language is the programming language to be implemented in this contest and is a subset of the C language. The source code for each SysY program is stored in a file with the extension sy. The file has and only has one main function definition named main. it can also contain several global variable declarations, function declarations and other function definitions. the SysY language supports multidimensional array types with int type and elements of int type and stored row first. the const modifier is used to declare constants.

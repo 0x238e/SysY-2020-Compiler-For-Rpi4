@@ -1,0 +1,22 @@
+--no-argc \
+--no-bitfields \
+--no-checksum \
+--no-comma-operators \
+--no-compound-assignment \
+--concise \
+--no-embedded-assigns \
+--no-jumps \
+--no-longlong \
+--no-int8 \
+--no-float \
+--no-math64 \
+--no-inline-function \
+--no-packed-struct \
+--no-paranoid \
+--no-pointers \
+--no-structs \
+--no-unions \
+--no-volatiles \
+--no-volatile-pointers \
+--no-const-pointers \
+--no-builtins

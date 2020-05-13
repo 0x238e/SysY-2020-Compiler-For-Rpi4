@@ -4,7 +4,8 @@ This directory contains testcases and testcase generator for each component of t
 ## Directories
 ```
 in  -> input source files for compilers
-out -> reference lexer output
+out -> lexer output
+ref -> reference lexer output
 ```
 
 ## Usage

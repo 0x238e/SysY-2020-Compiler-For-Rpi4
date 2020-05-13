@@ -1,3 +1,6 @@
 .vscode/
 csmith/
 c-testsuite/
+gcc-testsuite/
+llvm-testsuite/
+pre/

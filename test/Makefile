@@ -11,4 +11,4 @@ reference: $(LEXER_REFERENCE)
 	mv $(LEXER_REFERENCE) $(LEXER_REFERENCE_PATH)
 
 clean:
-	rm -rf ref/*
+	rm -rf ref/* pre/*

@@ -3,7 +3,10 @@
 --no-checksum \
 --no-comma-operators \
 --no-compound-assignment \
---concise \
+--no-pre-incr-operator \
+--no-pre-decr-operator \
+--no-post-incr-operator \
+--no-post-decr-operator \
 --no-embedded-assigns \
 --no-jumps \
 --no-longlong \
@@ -19,4 +22,4 @@
 --no-volatiles \
 --no-volatile-pointers \
 --no-const-pointers \
---no-builtins
+--no-builtins \

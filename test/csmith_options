@@ -21,5 +21,4 @@
 --no-unions \
 --no-volatiles \
 --no-volatile-pointers \
---no-const-pointers \
---no-builtins \
+--no-const-pointers

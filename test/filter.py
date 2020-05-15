@@ -3,6 +3,7 @@
 import os
 import re
 from functools import reduce
+from subprocess import check_output
 
 source_dir = "llvm-testsuite"
 target_dir = "pre"
@@ -13,7 +14,6 @@ id_pat = r"([a-zA-Z_][a-zA-Z0-9_]*)"
 reject = [
     r"struct\s+",
     r"typedef\s+",
-    r"#define",
     r"#if",
     r"#ifdef",
     r"#ifndef",
@@ -24,6 +24,7 @@ reject = [
     r"\s+float\s+",
     r":",
     r"\?",
+    r"\.\.\.",
 ]
 
 reject_count = 0
@@ -37,15 +38,21 @@ delete = [
     r"inline\s+",
     r"static\s+",
     r"volatile\s+",
+    r"__attribute__\s*\(\(.*\)\)",
     r"#.*\n",
     r"\+\+",
     r"--",
-    r"\.\.\.",
 ]
 
 delete_count = 0
 delete_pattern = reduce(lambda x, y: x + "(" + y + ")" + r"|", delete, "")
 delete_pattern = delete_pattern[:-1]
+
+
+sign = r"(\+|-)?"
+digit_prefix = r"(0|0b|0B|0x|0X)?"
+digit_body = r"([0-9a-fA-F]+)"
+digit_postfix = r"(llu|ll|lu|l|u|LLU|LL|LU|L|U)?"
 
 replace = [
     # chars
@@ -61,13 +68,33 @@ replace = [
     (r"~", r"!"),
     (r"<<", r"*"),
     (r">>", r"/"),
-    (r"(^&)&(^&)", "+"),
+
     # Accumulative operation
-    (id_pat + r"(\s*)(\+|-|\*|/)=(\s*)(.*);", r"\1 = \1 \3 \5"),
+    (id_pat + r"(\s*)(\+|-|\*|/)=(\s*)(.*);", r"\1 = \1 \3 \5;"),
     # Non int primitive types
-    # (r"(\s+)(unsigned\s+)?((char)|(short int)|(short)|(long long int)|(long long)|(long))\s+", r"\1int"),
-    # (r"(\s+)(uint|int)[a-zA-Z_]*\s+", r"\1int"),
-    # (r"(\s+)bool", r"\1int"),
+    # Might change identifier names, but who cares
+    (r"((unsigned|signed)\s+)?((bool)|(char)|(short int)|(short)|\
+       (long long int)|(long long)|(long int)|(long)|(int))", r"int"),
+    (r"(uint|int)[0-9a-zA-Z_]*", r"int"),
+
+    # The following requires clang-format preprocessing to work properly
+    (r"\s&\s", r"*"),
+    (r"\s\|\s", r"+"),
+
+    (r"\(void\)", r"()"),
+    # Pointer declaration
+    (r"(int|void)\s+\*+", r"int "),
+    # Pointer dereference
+    (r"\*+" + id_pat, r" \1"),
+    (r"\*+\((.*)\)", r" \1"),
+    # Address operation
+    (r"\&" + id_pat, r" \1"),
+    (r"\&+\((.*)\)", r" \1"),
+    # Type cast
+    (r"\(int\)", ""),
+
+    # Remove postfix of numbers
+    (r"(\s|\()" + sign + digit_prefix + digit_body + digit_postfix + r"(\s|\))", r"\1\2\3\4\6"),
 ]
 
 replace_count = 0
@@ -94,13 +121,10 @@ def getListOfFiles(dirName):
 files = getListOfFiles(source_dir)
 files = list(filter(lambda s: s.endswith(".c"), files))
 
-limit = 100000
+limit = 10000
 for file in files:
-    with open(file, 'r') as f:
-        s = ""
-
         try:
-            s = f.read()
+            s = check_output(["clang-format", "--style=Microsoft", file]).decode("utf-8")
         except BaseException:
             continue
         else:
@@ -122,14 +146,13 @@ for file in files:
 
             if replaced:
                 replace_count += 1
-                print(f.name)
                 print(s)
 
             # Write to pre/
             if s == "":
                 continue
 
-            fo = open(target_dir + "/" + f.name.split("/")[-1], "w")
+            fo = open(target_dir + "/" + file.split("/")[-1], "w")
             fo.write(s)
             fo.close()
 

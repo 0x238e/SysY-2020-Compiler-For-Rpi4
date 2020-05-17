@@ -36,7 +36,7 @@ SysY 语言的文法表示如下，其中 CompUnit 为开始符号：
 
 基本类型     $\quad$ BType $\quad \rightarrow$ **'int'**
 
-常数定义    $\quad$ ConstDef $\rightarrow$ **Ident** |  { '[' ConstExp ']' } '=' ConstInitVal
+常数定义    $\quad$ ConstDef $\rightarrow$ **Ident**   { '[' ConstExp ']' } '=' ConstInitVal
 
 常量初值     ConstInitVal $\rightarrow$ ConstExp  | ' \{ '[ ConstInitVal \{ ',' ConstInitVal\}] '}'
 

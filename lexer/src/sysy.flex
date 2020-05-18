@@ -4,13 +4,11 @@
 %{
   #include<stdio.h>
 
-  #define DEBUG_LEXER
-
   #ifdef DEBUG_LEXER
     #define DEBUG(type) printf(#type " '%s'\n", yytext)
     #define LITERAL(type) { DEBUG(type); }
   #else
-    #include "yy.tab.h"
+    #include "sysy.tab.h"
     #define DEBUG(type)
     #define LITERAL(type) { return TOKEN_##type; }
   #endif

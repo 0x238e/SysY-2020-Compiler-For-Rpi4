@@ -1,0 +1,1 @@
+/usr/sbin/c++   -lLLVM-10   CMakeFiles/cgen.dir/src/EmitAsm.cc.o  -o ../../bin/cgen 

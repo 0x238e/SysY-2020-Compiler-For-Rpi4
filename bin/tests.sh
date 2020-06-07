@@ -2,10 +2,11 @@
 
 rename .ll .c ../parser/test/*
 rename .lxo .c ../lexer/test/*
+rename .out .c ../cgen/test/*
 cd ../test/in
 for file in ./*
 do
-    # parser test
+    # lexer test
     if diff ../../lexer/test/$file <(../../bin/lexer < ../../test/in/$file)
     then
         echo $file lexer pass
@@ -19,4 +20,12 @@ do
     else
         echo $file parser failed
     fi
+    #cgen test
+    if  diff ../../cgen/test/$file <(../../bin/cgen ../../test/in/$file)
+    then
+        echo $file cgen pass
+    else
+        echo $file cgen failed
+    fi
+
 done

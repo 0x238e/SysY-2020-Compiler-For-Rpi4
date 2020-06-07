@@ -641,3 +641,6 @@ PassPluginLibraryInfo llvmGetPassPluginInfo() {
                 });
           }};
 }
+int main(){
+return 0;
+}

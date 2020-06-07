@@ -1,144 +1,143 @@
 ; ModuleID = 'test.ll'
 source_filename = "test.c"
-target datalayout = "e-m:w-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-windows-msvc19.25.28614"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
 
 @arr = dso_local global [4 x i32] [i32 1, i32 2, i32 3, i32 4], align 16
 @a = dso_local global i32 1234, align 4
 
-; Function Attrs: noinline nounwind optnone uwtable
-define dso_local i32 @fib(i32 %n) #0 {
-entry:
-  %retval = alloca i32, align 4
-  %n.addr = alloca i32, align 4
-  store i32 %n, i32* %n.addr, align 4
-  %0 = load i32, i32* %n.addr, align 4
-  %cmp = icmp sle i32 %0, 2
-  br i1 %cmp, label %if.then, label %if.else
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local i32 @fib(i32 %0) #0 {
+  %2 = alloca i32, align 4
+  %3 = alloca i32, align 4
+  store i32 %0, i32* %3, align 4
+  %4 = load i32, i32* %3, align 4
+  %5 = icmp sle i32 %4, 2
+  br i1 %5, label %6, label %7
 
-if.then:                                          ; preds = %entry
-  store i32 1, i32* %retval, align 4
-  br label %return
+6:                                                ; preds = %1
+  store i32 1, i32* %2, align 4
+  br label %15
 
-if.else:                                          ; preds = %entry
-  %1 = load i32, i32* %n.addr, align 4
-  %sub = sub nsw i32 %1, 1
-  %call = call i32 @fib(i32 %sub)
-  %2 = load i32, i32* %n.addr, align 4
-  %sub1 = sub nsw i32 %2, 2
-  %call2 = call i32 @fib(i32 %sub1)
-  %add = add nsw i32 %call, %call2
-  store i32 %add, i32* %retval, align 4
-  br label %return
+7:                                                ; preds = %1
+  %8 = load i32, i32* %3, align 4
+  %9 = sub nsw i32 %8, 1
+  %10 = call i32 @fib(i32 %9)
+  %11 = load i32, i32* %3, align 4
+  %12 = sub nsw i32 %11, 2
+  %13 = call i32 @fib(i32 %12)
+  %14 = add nsw i32 %10, %13
+  store i32 %14, i32* %2, align 4
+  br label %15
 
-return:                                           ; preds = %if.else, %if.then
-  %3 = load i32, i32* %retval, align 4
-  ret i32 %3
+15:                                               ; preds = %7, %6
+  %16 = load i32, i32* %2, align 4
+  ret i32 %16
 }
 
-; Function Attrs: noinline nounwind optnone uwtable
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
 define dso_local i32 @main() #0 {
-entry:
-  %retval = alloca i32, align 4
-  %b = alloca i32, align 4
-  %c = alloca i32, align 4
-  %sum = alloca i32, align 4
-  store i32 0, i32* %retval, align 4
-  %0 = load i32, i32* @a, align 4
-  %sub = sub nsw i32 0, %0
-  store i32 %sub, i32* %b, align 4
-  %1 = load i32, i32* @a, align 4
-  %add = add nsw i32 %1, 1
-  store i32 %add, i32* @a, align 4
-  %2 = load i32, i32* @a, align 4
-  %sub1 = sub nsw i32 %2, 2
-  store i32 %sub1, i32* @a, align 4
-  %3 = load i32, i32* @a, align 4
-  %mul = mul nsw i32 %3, 3
-  store i32 %mul, i32* @a, align 4
-  %4 = load i32, i32* @a, align 4
-  %div = sdiv i32 %4, 4
-  store i32 %div, i32* @a, align 4
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  %3 = alloca i32, align 4
+  %4 = alloca i32, align 4
+  store i32 0, i32* %1, align 4
   %5 = load i32, i32* @a, align 4
-  %rem = srem i32 %5, 5
-  store i32 %rem, i32* @a, align 4
-  %6 = load i32, i32* @a, align 4
-  %cmp = icmp sgt i32 %6, 0
-  br i1 %cmp, label %if.then, label %if.else
-
-if.then:                                          ; preds = %entry
+  %6 = sub nsw i32 0, %5
+  store i32 %6, i32* %2, align 4
   %7 = load i32, i32* @a, align 4
-  store i32 %7, i32* %b, align 4
-  br label %if.end6
-
-if.else:                                          ; preds = %entry
-  %8 = load i32, i32* @a, align 4
-  %cmp2 = icmp eq i32 %8, 0
-  br i1 %cmp2, label %if.then3, label %if.else4
-
-if.then3:                                         ; preds = %if.else
-  store i32 0, i32* %b, align 4
-  br label %if.end
-
-if.else4:                                         ; preds = %if.else
+  %8 = add nsw i32 %7, 1
+  store i32 %8, i32* @a, align 4
   %9 = load i32, i32* @a, align 4
-  %sub5 = sub nsw i32 0, %9
-  store i32 %sub5, i32* %b, align 4
-  br label %if.end
+  %10 = sub nsw i32 %9, 2
+  store i32 %10, i32* @a, align 4
+  %11 = load i32, i32* @a, align 4
+  %12 = mul nsw i32 %11, 3
+  store i32 %12, i32* @a, align 4
+  %13 = load i32, i32* @a, align 4
+  %14 = sdiv i32 %13, 4
+  store i32 %14, i32* @a, align 4
+  %15 = load i32, i32* @a, align 4
+  %16 = srem i32 %15, 5
+  store i32 %16, i32* @a, align 4
+  %17 = load i32, i32* @a, align 4
+  %18 = icmp sgt i32 %17, 0
+  br i1 %18, label %19, label %21
 
-if.end:                                           ; preds = %if.else4, %if.then3
-  br label %if.end6
+19:                                               ; preds = %0
+  %20 = load i32, i32* @a, align 4
+  store i32 %20, i32* %2, align 4
+  br label %29
 
-if.end6:                                          ; preds = %if.end, %if.then
-  %10 = load i32, i32* %b, align 4
-  %cmp7 = icmp sgt i32 %10, 0
-  br i1 %cmp7, label %if.then8, label %if.end6.if.end9_crit_edge
+21:                                               ; preds = %0
+  %22 = load i32, i32* @a, align 4
+  %23 = icmp eq i32 %22, 0
+  br i1 %23, label %24, label %25
 
-if.end6.if.end9_crit_edge:                        ; preds = %if.end6
-  br label %if.end9
+24:                                               ; preds = %21
+  store i32 0, i32* %2, align 4
+  br label %28
 
-if.then8:                                         ; preds = %if.end6
-  %11 = load i32, i32* %b, align 4
-  %call = call i32 @fib(i32 %11)
-  store i32 %call, i32* %b, align 4
-  br label %if.end9
+25:                                               ; preds = %21
+  %26 = load i32, i32* @a, align 4
+  %27 = sub nsw i32 0, %26
+  store i32 %27, i32* %2, align 4
+  br label %28
 
-if.end9:                                          ; preds = %if.end6.if.end9_crit_edge, %if.then8
-  %12 = load i32, i32* @a, align 4
-  %13 = load i32, i32* %b, align 4
-  %add10 = add nsw i32 %12, %13
-  store i32 %add10, i32* getelementptr inbounds ([4 x i32], [4 x i32]* @arr, i64 0, i64 3), align 4
-  store i32 10, i32* %c, align 4
-  store i32 0, i32* %sum, align 4
-  br label %while.cond
+28:                                               ; preds = %25, %24
+  br label %29
 
-while.cond:                                       ; preds = %while.body, %if.end9
-  %14 = load i32, i32* %c, align 4
-  %cmp11 = icmp sgt i32 %14, 0
-  br i1 %cmp11, label %while.body, label %while.end
+29:                                               ; preds = %28, %19
+  %30 = load i32, i32* %2, align 4
+  %31 = icmp sgt i32 %30, 0
+  br i1 %31, label %32, label %._crit_edge
 
-while.body:                                       ; preds = %while.cond
-  %15 = load i32, i32* %sum, align 4
-  %16 = load i32, i32* %c, align 4
-  %add12 = add nsw i32 %15, %16
-  store i32 %add12, i32* %sum, align 4
-  %17 = load i32, i32* %c, align 4
-  %sub13 = sub nsw i32 %17, 1
-  store i32 %sub13, i32* %c, align 4
-  br label %while.cond
+._crit_edge:                                      ; preds = %29
+  br label %35
 
-while.end:                                        ; preds = %while.cond
-  %18 = load i32, i32* %sum, align 4
-  %19 = load i32, i32* getelementptr inbounds ([4 x i32], [4 x i32]* @arr, i64 0, i64 3), align 4
-  %add14 = add nsw i32 %18, %19
-  ret i32 %add14
+32:                                               ; preds = %29
+  %33 = load i32, i32* %2, align 4
+  %34 = call i32 @fib(i32 %33)
+  store i32 %34, i32* %2, align 4
+  br label %35
+
+35:                                               ; preds = %._crit_edge, %32
+  %36 = load i32, i32* @a, align 4
+  %37 = load i32, i32* %2, align 4
+  %38 = add nsw i32 %36, %37
+  store i32 %38, i32* getelementptr inbounds ([4 x i32], [4 x i32]* @arr, i64 0, i64 3), align 4
+  store i32 10, i32* %3, align 4
+  store i32 0, i32* %4, align 4
+  br label %39
+
+39:                                               ; preds = %42, %35
+  %40 = load i32, i32* %3, align 4
+  %41 = icmp sgt i32 %40, 0
+  br i1 %41, label %42, label %48
+
+42:                                               ; preds = %39
+  %43 = load i32, i32* %4, align 4
+  %44 = load i32, i32* %3, align 4
+  %45 = add nsw i32 %43, %44
+  store i32 %45, i32* %4, align 4
+  %46 = load i32, i32* %3, align 4
+  %47 = sub nsw i32 %46, 1
+  store i32 %47, i32* %3, align 4
+  br label %39
+
+48:                                               ; preds = %39
+  %49 = load i32, i32* %4, align 4
+  %50 = load i32, i32* getelementptr inbounds ([4 x i32], [4 x i32]* @arr, i64 0, i64 3), align 4
+  %51 = add nsw i32 %49, %50
+  ret i32 %51
 }
 
-attributes #0 = { noinline nounwind optnone uwtable "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-calls"="false" "less-precise-fpmad"="false" "no-frame-pointer-elim"="false" "no-infs-fp-math"="false" "no-jump-tables"="false" "no-nans-fp-math"="false" "no-signed-zeros-fp-math"="false" "no-trapping-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+fxsr,+mmx,+sse,+sse2,+x87" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #0 = { noinline nounwind optnone sspstrong uwtable "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-calls"="false" "frame-pointer"="all" "less-precise-fpmad"="false" "min-legal-vector-width"="0" "no-infs-fp-math"="false" "no-jump-tables"="false" "no-nans-fp-math"="false" "no-signed-zeros-fp-math"="false" "no-trapping-math"="false" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "unsafe-fp-math"="false" "use-soft-float"="false" }
 
-!llvm.module.flags = !{!0, !1}
-!llvm.ident = !{!2}
+!llvm.module.flags = !{!0, !1, !2}
+!llvm.ident = !{!3}
 
-!0 = !{i32 1, !"wchar_size", i32 2}
+!0 = !{i32 1, !"wchar_size", i32 4}
 !1 = !{i32 7, !"PIC Level", i32 2}
-!2 = !{!"clang version 8.0.0 (trunk)"}
+!2 = !{i32 7, !"PIE Level", i32 2}
+!3 = !{!"clang version 10.0.0 "}

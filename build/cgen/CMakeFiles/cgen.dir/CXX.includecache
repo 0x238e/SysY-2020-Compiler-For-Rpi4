@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/SysY-2020-Compiler-For-Rpi4/cgen/src/EmitAsm.cc
+asmgen.hpp
+/SysY-2020-Compiler-For-Rpi4/cgen/src/asmgen.hpp
+llvm/ADT/Statistic.h
+/SysY-2020-Compiler-For-Rpi4/cgen/src/llvm/ADT/Statistic.h
+llvm/IR/IRBuilder.h
+/SysY-2020-Compiler-For-Rpi4/cgen/src/llvm/IR/IRBuilder.h
+llvm/Passes/PassBuilder.h
+/SysY-2020-Compiler-For-Rpi4/cgen/src/llvm/Passes/PassBuilder.h
+llvm/Passes/PassPlugin.h
+/SysY-2020-Compiler-For-Rpi4/cgen/src/llvm/Passes/PassPlugin.h
+llvm/Transforms/Utils/BasicBlockUtils.h
+/SysY-2020-Compiler-For-Rpi4/cgen/src/llvm/Transforms/Utils/BasicBlockUtils.h
+iostream
+-
+string
+-
+
+/SysY-2020-Compiler-For-Rpi4/cgen/src/asmgen.hpp
+assert.h
+-
+iostream
+-
+

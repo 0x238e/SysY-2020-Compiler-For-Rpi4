@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+e2b8b549114cc8fe5e38167fbcc1ede3 ../lexer/src/lex.yy.c
+a561515c33f721a4ab5c19ab4343073e ../parser/src/sysy.tab.c

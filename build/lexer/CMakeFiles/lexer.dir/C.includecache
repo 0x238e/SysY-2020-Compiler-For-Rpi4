@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../parser/src/sysy_parse.hpp
+vector
+-
+
+/SysY-2020-Compiler-For-Rpi4/lexer/src/lex.yy.c
+stdio.h
+-
+string.h
+-
+errno.h
+-
+stdlib.h
+-
+inttypes.h
+-
+stdio.h
+-
+sysy_parse.hpp
+/SysY-2020-Compiler-For-Rpi4/lexer/src/sysy_parse.hpp
+sysy.tab.h
+/SysY-2020-Compiler-For-Rpi4/lexer/src/sysy.tab.h
+unistd.h
+-
+

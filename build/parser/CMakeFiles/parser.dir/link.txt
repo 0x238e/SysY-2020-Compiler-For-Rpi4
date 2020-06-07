@@ -1,0 +1,1 @@
+/usr/sbin/c++     CMakeFiles/parser.dir/src/sysy.tab.c.o CMakeFiles/parser.dir/src/sysy_parse.cpp.o CMakeFiles/parser.dir/__/lexer/src/lex.yy.c.o  -o ../../bin/parser 

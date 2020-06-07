@@ -5,8 +5,9 @@ jobs:
   build:
     docker:
       # specify the version
-      image: yangyw12345/arch-builder:latest
-
+      - image: yangyw12345/arch-builder:latest
+      
+    working_directory: /{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
       - run: mkdir build && cd build && cmake .. && make

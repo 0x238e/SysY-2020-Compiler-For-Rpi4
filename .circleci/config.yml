@@ -8,7 +8,7 @@ jobs:
       image: yangyw12345/arch-builder:latest
 
     steps:
-      - checkout cgen-llvm
+      - checkout
       - run: 
           name: build
           command: mkdir build && cd build && cmake .. && make

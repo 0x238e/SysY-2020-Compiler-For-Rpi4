@@ -9,9 +9,5 @@ jobs:
 
     steps:
       - checkout
-      - run: 
-          name: build
-          command: mkdir build && cd build && cmake .. && make
-      - run: 
-          name: test
-          command: cd ./bin && bash ./tests.sh
+      - run: mkdir build && cd build && cmake .. && make
+      - run: cd ./bin && bash ./tests.sh

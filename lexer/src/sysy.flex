@@ -6,6 +6,7 @@
 
   #ifdef DEBUG_LEXER
     #define DEBUG(type) printf(#type " '%s'\n", yytext)
+
     #define DEBUG_WITH_CONTENT(type, content) printf(#type " '%s'\n", content)
     #define LITERAL(type) { DEBUG(type); }
   #else
@@ -19,7 +20,9 @@
 %}
 
 %x COMMENT
+
 %x STRING
+
 
 identifier [a-zA-Z][a-zA-Z0-9]*
 
@@ -103,8 +106,10 @@ return LITERAL(return)
 {identifier} {
   DEBUG(identifier);
 #ifndef DEBUG_LEXER
+
   yylval.raw_symbol = new char[yyleng+1];
   strncpy(yylval.raw_symbol,yytext,yyleng);
+
   return TOKEN_identifier;
 #endif
 }
@@ -168,6 +173,7 @@ return LITERAL(return)
   return TOKEN_numeric_constant;
 #endif
 }
+
 
 <INITIAL>\"\" {
   DEBUG_WITH_CONTENT(string_constant, "");

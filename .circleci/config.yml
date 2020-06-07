@@ -1,0 +1,15 @@
+  
+# CircleCI 2.0 configuration file
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version
+      - image: yangyw12345/arch-builder:latest
+      
+    working_directory: /{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+      - run: git checkout cgen-llvm && mkdir build && cd build && cmake .. && make
+      - run: cd ./bin && bash ./tests.sh

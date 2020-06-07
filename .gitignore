@@ -1,2 +1,4 @@
 csmith/
 c-testsuite/
+cmake*/
+.vscode/

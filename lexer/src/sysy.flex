@@ -6,16 +6,23 @@
 
   #ifdef DEBUG_LEXER
     #define DEBUG(type) printf(#type " '%s'\n", yytext)
+
+    #define DEBUG_WITH_CONTENT(type, content) printf(#type " '%s'\n", content)
     #define LITERAL(type) { DEBUG(type); }
   #else
+    #include "sysy_parse.hpp"
     #include "sysy.tab.h"
     #define DEBUG(type)
+    #define DEBUG_WITH_CONTENT(type, content)
     #define LITERAL(type) { return TOKEN_##type; }
   #endif
 
 %}
 
 %x COMMENT
+
+%x STRING
+
 
 identifier [a-zA-Z][a-zA-Z0-9]*
 
@@ -99,7 +106,10 @@ return LITERAL(return)
 {identifier} {
   DEBUG(identifier);
 #ifndef DEBUG_LEXER
-  yylval.raw_symbol = yytext;
+
+  yylval.raw_symbol = new char[yyleng+1];
+  strncpy(yylval.raw_symbol,yytext,yyleng);
+
   return TOKEN_identifier;
 #endif
 }
@@ -161,6 +171,43 @@ return LITERAL(return)
 #ifndef DEBUG_LEXER
   yylval.raw_int = (int)strtol(yytext, NULL, 16);
   return TOKEN_numeric_constant;
+#endif
+}
+
+
+<INITIAL>\"\" {
+  DEBUG_WITH_CONTENT(string_constant, "");
+#ifndef DEBUG_LEXER
+  yylval.raw_str = "";
+  return TOKEN_string_constant;
+#endif
+}
+
+<INITIAL>\" {
+  BEGIN(STRING);
+}
+
+<STRING>[^\"]* {
+  DEBUG(string_constant);
+#ifndef DEBUG_LEXER
+  yylval.raw_str = yytext;
+  return TOKEN_string_constant;
+#endif
+}
+
+<STRING>\" {
+  BEGIN(INITIAL);
+}
+
+<STRING><<EOF>> {
+#ifdef DEBUG_LEXER
+  fprintf(stderr, "[ERROR] Lexer error at line %d: Unmatched string '%s'\n", yylineno, yytext);
+#else
+  yylval.error_msg = "Unmatched string";
+#endif
+  yyterminate();
+#ifndef DEBUG_LEXER
+  return TOKEN_error;
 #endif
 }
 

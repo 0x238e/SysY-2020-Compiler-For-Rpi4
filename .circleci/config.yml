@@ -5,21 +5,17 @@ jobs:
   build:
     docker:
       # specify the version
-      - image: yangyw12345/arch-builder:latest
+      image: yangyw12345/arch-builder:latest
 
     steps:
-      - checkout
+      - checkout cgen-llvm
       - run: 
           name: build
-          command: 
-            mkdir build
-            cd build
-            cmake ..
-            make
+          command: mkdir build && cd build && cmake .. && make
           
-    - test:
+   test:
       requires:
-        - build
+         - build
       steps:
-        - run: cd ./bin
-        - run: bash ./tests.sh
+         - run: cd ./bin
+         - run: bash ./tests.sh

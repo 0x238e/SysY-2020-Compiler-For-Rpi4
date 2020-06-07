@@ -2,7 +2,7 @@
 #
 version: 2
 jobs:
-  buildAndTest:
+  build:
     docker:
       # specify the version
       image: yangyw12345/arch-builder:latest

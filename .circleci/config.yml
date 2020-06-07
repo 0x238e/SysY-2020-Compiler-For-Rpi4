@@ -10,5 +10,5 @@ jobs:
     working_directory: /{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
-      - run: mkdir build && cd build && cmake .. && make
+      - run: git checkout cgen-llvm && mkdir build && cd build && cmake .. && make
       - run: cd ./bin && bash ./tests.sh
